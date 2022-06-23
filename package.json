@@ -1,0 +1,36 @@
+{
+  "name": "rft-campaign-contracts",
+  "version": "1.0.0",
+  "description": "RFT Campaign Smart Contracts",
+  "main": "",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "@openzeppelin/contracts": "4.6.0"
+  },
+  "scripts": {
+    "test": "rm -frd ./build && truffle compile && truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:UniqueNetwork/rft-contracts.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://unique.network",
+  "dependencies": {
+  },
+  "standard": {
+    "globals": [
+      "it",
+      "assert",
+      "beforeEach",
+      "afterEach",
+      "describe",
+      "contract",
+      "artifacts",
+      "web3"
+    ]
+  }
+}
