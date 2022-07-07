@@ -1,4 +1,5 @@
 const { ApiPromise, WsProvider, Keyring } = require('@polkadot/api');
+const { addressToEvm } = require('@polkadot/util-crypto');
 const secret = require("../secret");
 const { MintableNonFungibleToken } = require('non-fungible-token-abi');
 const BigNumber = require('bignumber.js');
@@ -14,6 +15,7 @@ let nftOwnerAddress;
 let firstNFTID = 1;
 let rtfinst;
 let api;
+const GAS_ARGS = {gas: 2500000};
 
 async function connectSubstrate() {
   // Initialise the provider to connect to the node
@@ -134,6 +136,34 @@ async function mintMultipleNFTs(api, signer, collectionId, nftOwner) {
   );
 }
 
+function subToEthLowercase(eth) {
+  const bytes = addressToEvm(eth);
+  return '0x' + Buffer.from(bytes).toString('hex');
+}
+
+function subToEth(eth) {
+  return web3.utils.toChecksumAddress(subToEthLowercase(eth));
+}
+
+async function executeEthTxOnSub(api, from, contractAddress, contractInstance, mkTx) {
+  const value = 0;
+  // console.log("Calling from account: ", subToEth(from.address));
+  // console.log("Contract address: ", contractAddress);
+  const tx = api.tx.evm.call(
+    subToEth(from.address),
+    contractAddress,
+    mkTx(contractInstance.methods).encodeABI(),
+    value,
+    GAS_ARGS.gas,
+    await web3.eth.getGasPrice(),
+    null,
+    null,
+    [],
+  );
+  txResult = await signTransaction(from, tx);
+  if (txResult.status != "SUCCESS") throw new Error("Eth Transaction failed");
+}
+
 contract("RFT Claim", function (accounts) {
 
   before("Setup", async () => {
@@ -143,8 +173,7 @@ contract("RFT Claim", function (accounts) {
     nftOwnerAddress = accounts[0];
 
     // Init collection owner keyring
-    keyring = new Keyring({ type: 'sr25519' });
-    keyring.setSS58Format(255);
+    let keyring = new Keyring({ type: 'sr25519' });
     const signer = keyring.addFromUri(secret.substrateCollectionOwnerSeed);
 
     // Init substrate API
@@ -194,6 +223,24 @@ contract("RFT Claim", function (accounts) {
     // Check that the claimer receives an NFT
     const balanceAfter = await token.methods.balanceOf(accounts[1]).call();
     assert.ok(balanceAfter - balanceBefore == 1);
+  });
+
+  it("Claim from substrate address, added as mirror", async () => {
+    const token = new web3.eth.Contract(abi, collectionAddress);
+
+    // Get the substrate account and its Eth mirror
+    let keyring = new Keyring({ type: 'sr25519' });
+    const fromSub = keyring.addFromUri("//Alice");
+    const fromEth = subToEth(fromSub.address);
+    const balanceBeforeEth = await token.methods.balanceOf(fromEth).call();
+
+    await rtfinst.addClaimer(fromEth, {from: accounts[0]});
+    const contractInst = new web3.eth.Contract(rtfinst.abi, rtfinst.address);
+    await executeEthTxOnSub(api, fromSub, rtfinst.address, contractInst, m => m.claim());
+
+    // Check that the claimer receives an NFT
+    const balanceAfterEth = await token.methods.balanceOf(fromEth).call();
+    assert.ok(balanceAfterEth - balanceBeforeEth == 1);
   });
 
   it("Claim from non-added address should fail", async () => {
