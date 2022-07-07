@@ -18,10 +18,13 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-//
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+// const Web3 = require('web3');
+const { privateKeys } = require("./secret.js");
+
+// const wallet = new Web3.Wallet(privateKeys);
+// const wsProvider = new Web3.providers.WebsocketProvider("wss://ws-rc.unique.network");
+// const account = wallet.connect(provider);
 
 module.exports = {
   /**
@@ -46,16 +49,21 @@ module.exports = {
      port: 9545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
-    //
-    // An additional network, but with some advanced options…
-    // rc: {
-    //   port: 8777,             // Custom port
-    //   network_id: 1342,       // Custom network
-    //   gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
-    //   gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
-    //   from: <address>,        // Account to send transactions from (default: accounts[0])
-    //   websocket: true         // Enable EventEmitter interface for web3 (default: false)
-    // },
+    rc: {
+      network_id: 8880,       // Custom network
+      // gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
+      // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
+      // from: "0x2285aC1F02a80cD6fEeb5108FE5A2084E49B34e1",        // Account to send transactions from (default: accounts[0])
+
+      provider: new HDWalletProvider({
+        privateKeys: privateKeys,
+        providerOrUrl: "https://rpc-rc.unique.network",
+        pollingInterval: 12000
+      })
+
+      // from: "0x2285aC1F02a80cD6fEeb5108FE5A2084E49B34e1",        // Account to send transactions from (default: accounts[0])
+      // provider: wsProvider
+    },
     //
     // Useful for deploying to a public network.
     // Note: It's important to wrap the provider as a function to ensure truffle uses a new provider every time.
