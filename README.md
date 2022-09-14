@@ -15,12 +15,12 @@ https://docs.google.com/document/d/1kwpGurlbXjQHUjvmPsx7tEIXagUNiFOoxNrQQUml6JU/
 
 1. Deploy smart contracts on Ethereum and Quartz
 2. Create an RFT collection and two RFT tokens, one for each NFT
-    3.1 Collection Properties
+    - Collection Properties
         - Name: RFTCampaign
         - Description: Monique and Substrapunk 6123 refractionalized
         - Token prefix: FPNK
         - Token limit: 2
-    3.2 Token Properties (immutable)
+    - Token Properties (immutable)
         - Name
         - Original ID
         - Lock contract address
