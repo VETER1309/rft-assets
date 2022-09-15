@@ -43,7 +43,7 @@ https://docs.google.com/document/d/1kwpGurlbXjQHUjvmPsx7tEIXagUNiFOoxNrQQUml6JU/
         - Name (string): (1) Monique, (2) SubstraPunk 6123
         - Original ID (u32): (1) 3042 (2) 6123
         - Lock contract address (string): TBD
-        - Lock contract network (enum): (1) Ethereum (2) Quartz
+        - Lock contract network (enum): (1) Ethereum Mainnet (2) Quartz
     - Number of fractions of each RFT: 100,000
     - Images
         - Monique: https://unique.network/markup/dist/static/images/common/monique.png
