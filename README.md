@@ -40,10 +40,14 @@ https://docs.google.com/document/d/1kwpGurlbXjQHUjvmPsx7tEIXagUNiFOoxNrQQUml6JU/
         - Token prefix: FPNK
         - Token limit: 2
     - Token Properties (immutable)
-        - Name
-        - Original ID
-        - Lock contract address
-        - Lock contract network (Ethereum or Quartz)
+        - Name (string): (1) Monique, (2) SubstraPunk 6123
+        - Original ID (u32): (1) 3042 (2) 6123
+        - Lock contract address (string): TBD
+        - Lock contract network (enum): (1) Ethereum (2) Quartz
+    - Number of fractions of each RFT: 100,000
+    - Images
+        - Monique: https://unique.network/markup/dist/static/images/common/monique.png
+        - Punk 6123: https://ipfs.unique.network/ipfs/QmcAcH4F9HYQtpqKHxBFwGvkfKb8qckXj2YWUrcc8yd24G/image6123.png
 3. Approve NFT to the smart contract
 4. Invoke a method on the smart contract to capture the NFT (via transferFrom) and record matching RFT ID and network
     - The smart contract will accept only one NFT.
