@@ -8,6 +8,25 @@
 4. Nest 2 QTZ, one fraction of Monique RFT, and one fraction of 6123 punk RFT in each chest NFT.
 5. Create claiming contract and the matching UI on the campaign web page that will allow each registered address to claim one chest NFT.
 
+## Chest Collection
+
+Collection Properties:
+    - Name: Unique Chests
+    - Description: Unique NFT chests for keeping cool things inside
+    - Token prefix: CHEST
+
+Token Properties:
+    - Rarity: Regular, Rare, Extremely Rare
+
+Initial number of NFTs:
+    - 100,000 Regular chests, 0 Rare, 0 Extremely Rare.
+    - Capability to mint more in the future
+
+Images:
+    Regular: https://unique.network/markup/dist/static/images/chest/lootbox-1.png
+    Rare: https://unique.network/markup/dist/static/images/chest/lootbox-2.png
+    Extremenly Rarte: https://unique.network/markup/dist/static/images/chest/lootbox-3.png
+
 ## Process of Refractionalizing
 
 This document describes the process:
